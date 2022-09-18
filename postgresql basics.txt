@@ -1,0 +1,99 @@
+Server [localhost]:
+Database [postgres]:
+Port [5432]:
+Username [postgres]:
+Password for user postgres:
+psql (14.5)
+WARNING: Console code page (437) differs from Windows code page (1252)
+         8-bit characters might not work correctly. See psql reference
+         page "Notes for Windows users" for details.
+Type "help" for help.
+
+postgres=# create database school;
+CREATE DATABASE
+postgres=# \c school;
+You are now connected to database "school" as user "postgres".
+school=# \l
+                                                 List of databases
+   Name    |  Owner   | Encoding |          Collate           |           Ctype            |   Access privileges
+-----------+----------+----------+----------------------------+----------------------------+-----------------------
+ postgres  | postgres | UTF8     | English_United States.1252 | English_United States.1252 |
+ school    | postgres | UTF8     | English_United States.1252 | English_United States.1252 |
+ template0 | postgres | UTF8     | English_United States.1252 | English_United States.1252 | =c/postgres          +
+           |          |          |                            |                            | postgres=CTc/postgres
+ template1 | postgres | UTF8     | English_United States.1252 | English_United States.1252 | =c/postgres          +
+           |          |          |                            |                            | postgres=CTc/postgres
+(4 rows)
+
+
+school=# create table students(id integer not null primary key,name text not null,age integer not null,total_marks integer not null);
+CREATE TABLE
+school=# \d
+          List of relations
+ Schema |   Name   | Type  |  Owner
+--------+----------+-------+----------
+ public | students | table | postgres
+(1 row)
+
+                             ^
+school=# insert into students values(1,'Harsh',20,450),(2,'Arun',19,460),(3,'Divyansh',20,500);
+INSERT 0 3
+school=# select * from students;
+ id |   name   | age | total_marks
+----+----------+-----+-------------
+  1 | Harsh    |  20 |         450
+  2 | Arun     |  19 |         460
+  3 | Divyansh |  20 |         500
+(3 rows)
+               ^
+school=# select total_marks from students where age=20;
+ total_marks
+-------------
+         450
+         500
+(2 rows)
+
+
+school=# select name,total_marks from students where age=20;
+   name   | total_marks
+----------+-------------
+ Harsh    |         450
+ Divyansh |         500
+(2 rows)
+                                        ^
+school=# select * from students order by 1;
+ id |   name   | age | total_marks
+----+----------+-----+-------------
+  1 | Harsh    |  20 |         450
+  2 | Arun     |  19 |         460
+  3 | Divyansh |  20 |         500
+(3 rows)
+                                        ^
+school=# select * from students order by total_marks;
+ id |   name   | age | total_marks
+----+----------+-----+-------------
+  1 | Harsh    |  20 |         450
+  2 | Arun     |  19 |         460
+  3 | Divyansh |  20 |         500
+(3 rows)
+
+
+school=# update students set name = 'ashmita' where id = 2;
+UPDATE 1
+school=# select * from students;
+ id |   name   | age | total_marks
+----+----------+-----+-------------
+  1 | Harsh    |  20 |         450
+  3 | Divyansh |  20 |         500
+  2 | ashmita  |  19 |         460
+(3 rows)
+
+
+school=# delete from students where id = 2;
+DELETE 1
+school=# select * from students;
+ id |   name   | age | total_marks
+----+----------+-----+-------------
+  1 | Harsh    |  20 |         450
+  3 | Divyansh |  20 |         500
+(2 rows)
